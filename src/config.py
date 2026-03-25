@@ -14,9 +14,7 @@ load_dotenv()
 class Config:
     """Конфигурация приложения из переменных окружения."""
     
-    # Telegram API
-    TELEGRAM_API_ID = int(os.getenv("TELEGRAM_API_ID", "0"))
-    TELEGRAM_API_HASH = os.getenv("TELEGRAM_API_HASH", "")
+    # Telegram (теперь только бот)
     TELEGRAM_CHANNEL = os.getenv("TELEGRAM_CHANNEL", "@eddytester")
     
     # AI
@@ -49,20 +47,14 @@ class Config:
         """
         errors = []
         
-        if cls.TELEGRAM_API_ID == 0:
-            errors.append("TELEGRAM_API_ID не настроен")
-        
-        if not cls.TELEGRAM_API_HASH:
-            errors.append("TELEGRAM_API_HASH не настроен")
-        
-        if not cls.AI_API_KEY:
-            errors.append("AI_API_KEY не настроен")
-        
         if not cls.TELEGRAM_BOT_TOKEN:
             errors.append("TELEGRAM_BOT_TOKEN не настроен")
         
         if cls.TELEGRAM_USER_ID == 0:
             errors.append("TELEGRAM_USER_ID не настроен")
+        
+        if not cls.AI_API_KEY:
+            errors.append("AI_API_KEY не настроен")
         
         return errors
     

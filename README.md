@@ -41,11 +41,7 @@ cp .env.example .env
 Заполните `.env`:
 
 ```env
-# Telegram API (получить на my.telegram.org)
-TELEGRAM_API_ID=12345678
-TELEGRAM_API_HASH=abcdef1234567890
-
-# Канал
+# Канал (бот должен быть админом!)
 TELEGRAM_CHANNEL=@eddytester
 
 # DeepSeek AI
@@ -56,21 +52,15 @@ TELEGRAM_BOT_TOKEN=123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11
 TELEGRAM_USER_ID=123456789
 ```
 
+**Важно**: бот @mrgriffbot должен быть **админом** в канале!
+
 ### 3. Установка зависимостей
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Создание Telegram сессии
-
-```bash
-python scripts/create_session.py
-```
-
-Введите номер телефона второго аккаунта и код из Telegram.
-
-### 5. Тестовый запуск
+### 4. Тестовый запуск
 
 ```bash
 python -m src.main

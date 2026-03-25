@@ -68,7 +68,7 @@ Automator/
 
 **Поток данных**:
 ```
-1. Telethon читает посты из @eddytester (через сессию второго аккаунта)
+1. Бот @mrgriffbot читает посты из @eddytester (бот админ)
 2. Сохраняет в SQLite (src/db/repository.py)
 3. Отправляет текст в DeepSeek API с промптом (src/ai/client.py + prompt.py)
 4. Получает сгенерированный пост
@@ -86,24 +86,23 @@ Automator/
 
 **Проблема 1: GitHub Actions не подходит**
 - GitHub Actions — это не сервер, а временные раннеры (5-10 мин)
-- Сессия Telegram и SQLite не сохраняются между запусками
+- SQLite не сохраняется между запусками
 - **Решение в работе**: перейти на локальный запуск или сервер
 
-**Проблема 2: Нужны TELEGRAM_API_ID и API_HASH**
-- Для Telethon сессии нужны credentials с my.telegram.org
-- Создаются один раз для второго аккаунта
-- **Статус**: пользователь должен получить на my.telegram.org/apps
+**Проблема 2: Бот должен быть админом в канале**
+- Для чтения канала через бота требуется чтобы бот был админом
+- **Статус**: РЕШЕНО — бот @mrgriffbot добавлен админом в @eddytester
 
 === СЕКРЕТЫ (.env) ===
 
 ```env
-TELEGRAM_API_ID=          # с my.telegram.org (или временные: 2040)
-TELEGRAM_API_HASH=        # с my.telegram.org (или временные: b18441a1ff607e11a989891a5462e627)
 TELEGRAM_CHANNEL=@eddytester
 AI_API_KEY=sk-YOUR_KEY_HERE  # DeepSeek (замени!)
 TELEGRAM_BOT_TOKEN=YOUR_TOKEN_HERE  # бот токен (замени!)
 TELEGRAM_USER_ID=79068819  # @edburenkin
 ```
+
+**Примечание**: API_ID/HASH БОЛЬШЕ НЕ НУЖНЫ! Бот читает канал напрямую.
 
 === БЛИЖАЙШИЕ ЗАДАЧИ (из BACKLOG.md) ===
 
@@ -125,9 +124,11 @@ TELEGRAM_USER_ID=79068819  # @edburenkin
 
 === ИСТОРИЯ РЕШЕНИЙ ===
 
-**Почему Telethon, не бот?**
-- Бот не может читать каналы где он не админ
-- Решили: второй аккаунт + Telethon сессия
+**Почему бот читает канал?**
+- Изначально использовали Telethon + user сессия
+- Проблема: API_ID/HASH с my.telegram.org не работали
+- Решение: бот @mrgriffbot добавлен админом в канал
+- Плюс: не нужны API_ID/HASH, проще архитектура
 
 **Почему DeepSeek?**
 - Дешёвый, хороший контекст, OpenAI-compatible API

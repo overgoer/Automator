@@ -9,7 +9,7 @@ from datetime import datetime
 
 from .config import Config
 from .db.repository import Database
-from .telegram.client import TelegramClientWrapper
+from .telegram.bot_client import BotTelegramClient
 from .telegram.scraper import PostScraper
 from .ai.client import DeepSeekClient
 from .ai.prompt import PromptManager
@@ -34,9 +34,9 @@ class Automator:
     
     def __init__(self):
         self.db = Database(str(Config.DB_PATH))
-        self.tg_client = TelegramClientWrapper(
-            Config.TELEGRAM_API_ID,
-            Config.TELEGRAM_API_HASH
+        self.tg_client = BotTelegramClient(
+            Config.TELEGRAM_BOT_TOKEN,
+            Config.TELEGRAM_CHANNEL
         )
         self.scraper = PostScraper(self.tg_client, Config.TELEGRAM_CHANNEL)
         self.ai_client = DeepSeekClient(Config.AI_API_KEY, Config.AI_MODEL)
